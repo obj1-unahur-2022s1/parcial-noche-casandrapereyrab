@@ -1,17 +1,18 @@
 import comidas.*
 import comensales.*
-describe "Test de Comensales" {
+import cocina.*
+
+describe "tests Cocina" {
 		const hambCarne = new HamburguesaCarne(tipoDePan = new Casero() )
 		const hambCarne2 = new HamburguesaCarne(tipoDePan = new DeMasaMadre() )
 		const hambVeggie = new HamburguesaVegetariana(tipoDePan = new DeMasaMadre(), legumbre = "garbanzos")
+		const hambVeggie2 = new HamburguesaVegetariana(tipoDePan = new Casero(), legumbre = "lentejas")
 		const provoleta = new Provoleta(peso = 190)
 		const parrillada = new Parrillada()
 		const asado = new CorteDeCarne(calidad = 10, peso = 250)
 		const entrania = new CorteDeCarne(calidad = 7, peso = 200)
 		const chorizo = new CorteDeCarne(calidad = 8, peso = 50)
 		const vegetariano = new Vegetariano(peso = 68500)
-		const popular = new HambrePopular(peso = 85000)
-		const paladarFino = new PaladarFino(peso = 80000)
 		
 	method initialize() {
 		parrillada.agregarCorte(asado)
@@ -20,24 +21,26 @@ describe "Test de Comensales" {
 		vegetariano.comer(provoleta)
 		vegetariano.comer(hambVeggie)
 		vegetariano.comer(hambVeggie)
-		paladarFino.comer(parrillada)
+		vegetariano.agregarUnaComidaQueLeGusta(hambVeggie)
+		vegetariano.agregarUnaComidaQueLeGusta(hambVeggie2)
+		cocina.prepararComida(hambCarne)
+		cocina.prepararComida(hambCarne2)
+		cocina.prepararComida(hambVeggie)
+		cocina.prepararComida(hambVeggie)
+		cocina.prepararComida(provoleta)
+		cocina.prepararComida(parrillada)
 		
 	}
 	
-	test "Vegetariano satisfecho " {
-		assert.that(vegetariano.estaSatisfecho())
-	}
-
-	test "Popular no satisfecho" {
-		assert.notThat(popular.estaSatisfecho())	
-	}	
-	
-	test "Paladar Fino, le agrada Hamburgesa de carne de 250 gramos con pan de masa madre." {
-		assert.that(paladarFino.leAgrada(hambCarne2))	
+	test "la cocina tiene buena oferta vegetariana" {
+		assert.that(cocina.buenaOfertaVegetariana())
 	}
 	
-	test "Paladar No Fino, no le agrada Hamburguesa de carne de 250 gramos con pan casero." {
-		assert.notThat(paladarFino.leAgrada(hambCarne))	
+	test "el plato fuerte carnívoro es la parrillada" {
+		assert.equals(parrillada, cocina.platoFuerteCarnivoro())
 	}
 	
+	test "comidas que le gustan al vegetariano son provoleta y hambVeggie" {
+		assert.equals([hambVeggie, hambVeggie2], cocina.comidasQueLeGustanA(vegetariano))
+	}
 }
