@@ -1,3 +1,4 @@
+/* No era necesario mantener un coleccion de comidas que le gustan */
 import comidas.*
 
 class Comensales {
