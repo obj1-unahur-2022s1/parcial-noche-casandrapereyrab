@@ -1,15 +1,24 @@
+/* 
+1) La mejor opción para manejar el peso en las comidas era la siguiente:
+- método abstracto peso en Plato
+- const property peso en Provoleta
+- en esAbundante() usar ```self.peso()```
+2) La mejor opción para la valoración y aptoVegetariano  también era definir un método abstracto en Plato para que luego cada sub-clase implemente y retorne el valor que corresponde.
+3) En ```valoracion()``` de Parrillada tenias que usar el max() en lugar de abs()
+4) Para esté modelo lo más adecuado era que los panes sean objetos con nombre propio en lugar de clases. "Los tres únicos panes..." la clave en el enunciado esta en la palabra únicos.
+*/
 class Plato {
 	
-	var property peso = 0
-	var property aptoVegetariano = false
-	var property valoracion = 0
-	var property esAbundante = peso > 250
+	method peso()
+	method aptoVegetariano()
+	method valoracion()
+	method esAbundante() = self.peso() > 250
 	
 }
 
 class Provoleta inherits Plato {
 	var property tieneEspecias = true
-	
+	const property peso
 	override method aptoVegetariano() = not tieneEspecias
 	
 	override method valoracion() = if (self.esEspecial()) {120} else {80}
@@ -46,7 +55,7 @@ class Parrillada inherits Plato {
 	
 	override method aptoVegetariano() = false
 	
-	override method valoracion() = ((15 * self.corteMaximaCalidad()) - cortes.size()).abs() 
+	override method valoracion() = 0.max((15 * self.corteMaximaCalidad()) - cortes.size())
 	
 	method corteMaximaCalidad() = cortes.max({ c => c.calidad() }).calidad()
 }

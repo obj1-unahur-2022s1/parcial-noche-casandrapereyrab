@@ -1,3 +1,7 @@
+/*
+ En ```comidasQueLeGustanA```. Debia retonar las comidas que le agredan de la oferta de comida ```method comidasQueLeGustanA(unComensal) = comidasPreparadas.filter({c=> unComensal.leAgrada(c) })```
+ En ```elegirUnPlatoPara()``` la elección del plato debe ser despues de realizar el control del que la colección esta vacia.
+ */
 import comidas.*
 import comensales.*
 
@@ -20,13 +24,14 @@ object cocina {
 	
 	method comidasCarnivoras() = comidasPreparadas.filter({ c => not c.aptoVegetariano() })
 	
-	method comidasQueLeGustanA(unComensal) = unComensal.comidasQueLeGusta()
+	method comidasQueLeGustanA(unComensal) = comidasPreparadas.filter({c=> unComensal.leAgrada(c) })
 	
 	// BONUS
 	method elegirUnPlatoPara(unComensal) {
-		var plato = self.comidasQueLeGustanA(unComensal).anyOne()
+		
 		
 		if(self.comidasQueLeGustanA(unComensal).isEmpty()) {self.error("Al comensal no le gusta ningun plato.")}
+		var plato = self.comidasQueLeGustanA(unComensal).anyOne()
 		self.sacarComida(plato) 
 		unComensal.comer(plato)
 	}
